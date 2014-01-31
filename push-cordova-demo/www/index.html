@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <!-- width=device-width, height=device-height, -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.0.css" /> -->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Infobip Push Demo</title>
+</head>
+<body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>    
+    <script src="js/jquery.mobile-1.4.0.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-switch.min.js"></script>
+
+    <div class="app">
+        <div id="deviceready" class="blink">
+            <p class="event listening">Infobip Push Demo App - Connecting to Device</p>
+            <p class="event received">Infobip Push Demo App - Device is Ready</p>
+        </div>
+    </div>
+    <br />
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+
+    <div id="wrap">
+        <div class="pull-left">
+
+            <!-- Tabs -->
+            <div id="tabs">
+
+                <!-- Navigation -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tabApp" data-toggle="tab">App</a></li>
+                    <li><a href="#tabNotifications" data-toggle="tab">Notifs</a></li>
+                    <li id="liTabPayment"><a href="#tabPayment" data-toggle="tab">Centili</a></li>
+                </ul>
+
+                <!-- Content -->
+                <div class="tab-content">
+                    <!-- App -->
+                    <div class="tab-pane active" style="background-color: #ede;" id="tabApp">
+                        <div id="overrideDefaultMessageHandlingToggle">
+                            <button onclick="app.switchDefaultMessageHandling()" class="btn btn-warning btn-resize">Override Def. Message Handling</button>
+                        </div>
+                        <button id="btnCheckManifest" onclick="app.checkManifest()" class="btn btn-default btn-resize">Check Manifest</button><br />
+                        <div id="registrationToggle">
+                            <button onclick="app.register()" class="btn btn-success btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Register</button>
+                            <button onclick="app.unregister()" class="btn btn-danger btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Unregister</button><br />
+                        </div>
+                        <div id="debugModeToggle">
+                            <button onclick="app.setDebugModeEnabled(true)" class="btn btn-success btn-resize">Debug</button>
+                            <button onclick="app.setDebugModeEnabled(false)" class="btn btn-danger btn-resize">Debug</button>
+                        </div>
+                        <div id="locationToggle">
+                            <button onclick="app.enableLocation()" class="btn btn-success btn-resize">Location</button>
+                            <button onclick="app.disableLocation()" class="btn btn-danger btn-resize">Location</button>
+                        </div>
+                        <div id="locationBackToggle">
+                            <button onclick="app.enableBackLocation()" class="btn btn-success btn-resize">Back-Location</button>
+                            <button onclick="app.disableBackLocation()" class="btn btn-danger btn-resize">Back-Location</button>
+                        </div>
+                        <div id="locationUpdateTime" style="padding-top: 2px; padding-bottom: 8px;">
+                            <input id="inLocationUpdateTime" type="number" class="input-block-level" style="float: left; width: 20%;" min="5" value="15" max="44640" />
+                            <button onclick="app.setLocationUpdateTime()" class="btn btn-default btn-resize" style="float: right;">Set Location Upd Time</button>
+                        </div><br />
+                        <div id="dataGetters">
+                            <button onclick="app.getApplicationData()" class="btn btn-default btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Get Application Data</button><br />
+                            <button onclick="app.getBuilderData()" class="btn btn-default btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Get Builder Data</button><br />                        
+                            <button id="btnGetRegistrationData" onclick="app.getRegistrationData()" class="btn btn-default btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Get Registration Data</button><br />
+                        </div>
+                        <button id="btnGetDeviceId" onclick="app.getDeviceId()" class="btn btn-default btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Get Device Id</button><br />
+                    </div>
+                    <!-- Notifs -->
+                    <div class="tab-pane" style="background-color: #bee;" id="tabNotifications">
+                        <button onclick="app.getUnreceivedNotifications()" class="btn btn-default btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Get Unreceived Notifications</button><br />
+                        <div class="input-prepend" id="changeUserId" style="width: 100%;">
+                            <span class="add-on">Change UserID:</span><input id="inNewUserId" type="text" class="input-block-level" style="width: 75%; float: left; margin-bottom: 4px;" />
+                            <button onclick="app.changeUserId()" class="btn btn-warning btn-resize" style="float: right; margin-right: 8px;" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">&nbsp;OK&nbsp;</button>
+                        </div>
+                        <button onclick="app.getRegisteredChannels()" class="btn btn-default btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Get Subscribed Channels</button><br />
+                        <button onclick="app.unsubscribeFromAllChannels()" class="btn btn-danger btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Unsubscribe From All Channels</button><br />                        <div class="input-prepend" style="display: inline-block; width: 100%;">
+                            <span class="add-on">Subscribe to channel:</span><input id="inSubscribeToChannel" type="text" class="input-block-level" style="width: 75%; float: left;" />
+                            <button onclick="app.subscribeToChannel()" class="btn btn-default btn-resize" style="float: right; margin-right: 8px;" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">&nbsp;OK&nbsp;</button><br />
+                        </div>
+                    </div>
+                    <!-- Payment -->
+                    <div class="tab-pane" style="background-color: #eeb;" id="tabPayment">
+                        <button onclick="app.startPayment()" class="btn btn-default btn-resize" data-keyboard="false" data-toggle="modal" data-target="#myModal" data-backdrop="static">Invoke Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="pull-right notifications">
+            <div id="notifications">
+            <p>Here be notifications!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Console (for logging) -->
+    <div id="footer">
+        <div id="console"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+            <h4 class="modal-title" id="myModalLabel">Working...</h4>
+          </div>
+          <div class="modal-body">
+            Please wait...
+          </div>
+          <!--
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+          -->
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.infobip.cordova.demo" version="0.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Infobip Cordova Demo App</name>
+    <description>
+        A sample Infobip Demo application that works with Infobip Push service and Centili mobile payments.
+    </description>
+    <author email="nikola.maric@infobip.com" href="http://www.infobip.com">
+	Framework Integration Team @ Belgrade, Infobip Ltd.
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+</widget>
