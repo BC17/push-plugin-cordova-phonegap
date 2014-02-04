@@ -8,7 +8,7 @@ Requirements
 
 * Cordova (since version [at least] 3.3.0).
 * Before cloning, have the directory contain initialized cordova project by `$ cordova create com.infobip.pushHello HelloCordova`.
-* Installed plugins (com.infobip.push.cordova & com.infobip.mpay) via `$ cordova plugins add <plugin>`
+* Installed plugins (org.apache.cordova.device, com.infobip.push.cordova & com.infobip.mpay) via `$ cordova plugins add <plugin>`
 * Have platforms of your choice enabled. (`$ cordova platforms add <platform>`, `ios` and `android` supported by our push plugin, and `android` by mobile payment plugin)
 
 
