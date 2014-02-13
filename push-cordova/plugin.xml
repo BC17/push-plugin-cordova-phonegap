@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="com.infobip.push.cordova"
-        version="0.1.0">
+        version="0.1.1">
     <name>Infobip Push Notifications</name>
     <description>Infobip Push Notification Plugin</description>
     <license>MIT</license>
