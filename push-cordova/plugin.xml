@@ -83,7 +83,7 @@
 		            <category android:name="$PACKAGE_NAME"/>
 		        </intent-filter>
 		    </receiver>
-		    <receiver android:name="com.infobip.push.LocationBootReceiver.LocationBootReceiver" android:exported="false">
+		    <receiver android:name="com.infobip.push.lib.LocationBootReceiver" android:exported="false">
 		        <intent-filter>
 		            <action android:name="android.intent.action.BOOT_COMPLETED"/>
 		        </intent-filter>
