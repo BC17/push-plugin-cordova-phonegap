@@ -1,12 +1,12 @@
 Infobip Push Notification Plugin for Cordova
 ====================================
 
-Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing it's users ability to send push notifications to various device types with possibilities of rich media push, geographical targeting areas, delivery report, and many more.
+Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing its clients with the  ability to send push notifications to various devices, enabling  rich media push, geographical targeted sending areas, delivery reports, and much more.
 
 Installation
 ------------
 
-To install plugin to your Cordova project use Cordova CLI Tool:
+To install the plugin to your Cordova project use the Cordova CLI Tool:
 	
 	$ cordova plugin add com.infobip.push.cordova
 
@@ -14,7 +14,7 @@ Requirements
 ------------
 
 * `Android™`
-	* Set minimal required Android SDK version to 8 because GCM push is enabled since that Android OS version.
+	* Set the minimal required Android SDK version to 8 because GCM push is enabled only from that Android OS version and above.
 * `iOS™`
 	* Tested on iOS 6 and 7
 
@@ -23,25 +23,25 @@ Basic Usage
 
 ### Initialization
 
-Once you've added plugin to your project, you will be able to use it in javascript code by `push`.
+Once you've added the plugin to your project, you will be able to use it in JavaScript code as `push`.
 
-First thing you should do is initialize push plugin with `push.initialize(notificationListenerCallbackName)`. You provide this function with the name (string) of your callback function which should have signature `function(event, data)`. First parameter `event` (string) will take following values:
+The first thing you should do is to initialize push plugin with `push.initialize(notificationListenerCallbackName)`. You provide this function with the name (string) of your call-back function which hold the signature `function(event, data)`. The first parameter `event` (string) will take on following values:
 
-* `onNotificationReceived` - when a device receives a push notification from Infobip Push Service. In this case, `data` argument of this function will be JSON object representing notification.
-* `onInvisibleNotificationReceived` - when a device receives a push notification from Infobip Push Service when application TODO. In this case, `data` argument of this function will be JSON object representing notification.
-* `onNotificationOpened` - when an user opens received notification from notification bar. In this case, `data` argument of this function will be JSON object representing notification.
-* `onUnregistered` - when an application successfully unregisters from Infobip Push Service. In this case, `data` argument plays no significant role.
-* `onRegistered` - when an application successfully registers to Infobip Push Service. In this case, `data` argument plays no significant role.
-* `onError` - when an error occurs. This time, `data` argument will be error code. Error codes are listed below in section named "Error Codes".
+* `onNotificationReceived` - when a device receives a push notification from Infobip's Push service. In this case, the `data` argument of this function will be a JSON object representing a notification.
+* `onInvisibleNotificationReceived` - the device receives a push notification from Infobip's Push service. In this case, `data` argument of this function will be a JSON object representing the notification.
+* `onNotificationOpened` - when an user opens the received notification from the notification bar. In this case, the `data` argument of this function will be a JSON object representing the notification.
+* `onUnregistered` - when an application successfully unregisters from Infobip's Push service. In this case, the `data` argument doesn't play a significant role.
+* `onRegistered` - when an application successfully registers to Infobip's Push service. In this case, the `data` argument doesn't play a significant role.
+* `onError` - when an error occurs. This time, the `data` argument will simply be error code. Error codes are listed below under the section named "Error Codes".
 
-#### Example of usage:
+#### Usage examples:
 
-This code will initialize Push Notifications with `notificationListener` callback listener:
+This code will initialize push notifications with `notificationListener` call-back listener:
  
 	push.initialize(notificationListener);
 	
 
-Sample implementation of `notificationListener` callback listener:
+Sample implementation of `notificationListener` call-back listener:
 
 	notificationListener: function(event, notification){
         switch(event){
@@ -71,19 +71,19 @@ Sample implementation of `notificationListener` callback listener:
 
 ### Registration
 
-You need only one more function to make the magic happen. It's `push.register(regData);`. It's first argument is a JSON object containing mandatory:
+You need only one more function to make the magic happen. Its `push.register(regData);`. It's first argument is a JSON object containing the mandatory:
 
-* `applicationId` - Application UID from Infobip Push Portal.
-* `applicationSecret` - Application Secret from Infobip Push Portal.
+* `applicationId` - Application UID from Infobip's Push Portal.
+* `applicationSecret` - Application Secret from Infobip's Push Portal.
 * `senderId` - represents your Google Project number, obtained from the Google API Console (mandatory and specific for Android)
 
-and optional:
+and the optional:
 
 * `registrationData` - JSON object containing:
-	* `userId` - User ID which you can use for selectional targeting of push notifications from portal. If omitted, it will be random hash.
-	* `channels` - JSON array of strings representing channel names to which application will register.
+	* `userId` - User ID which you can use for custom targeting of push notifications from the portal. If omitted, it will be random hash.
+	* `channels` - JSON array of strings representing channel names to which the application will register.
 
-#### Example of registration object
+#### Example of a registration object
 
 	regData: {
 	    applicationId: "<YOUR-APPLICATION-ID>",
@@ -103,13 +103,14 @@ and optional:
 
 
 		
-That was core of your application's interaction with our plugin. Other than that, there are many functions you can use, and we will list them all in next chapter.
+That was the core of your application's interaction with our plugin. Other than that, there are multiple functions you can use. We will list them all in the following chapter.
 
-Advanced Usage
+Advanced usage
 --------------
 
 #### Notification
-Received notification has next form:
+
+The received notification has the following form:
 
 	{
 	    "notificationId":"<52d916a...00006e7>",
@@ -129,7 +130,7 @@ Received notification has next form:
 	    "badge":"10" // iOS only
 	}
 
-Depending of operating system, some fields exist or not.
+Depending on the operating system, some fields will bw non-existent.
 
 * `lights` and `vibrate` are only available on Android.
 * `badge` is only available on iOS
@@ -137,27 +138,29 @@ Depending of operating system, some fields exist or not.
 
 #### UserId
 
-Overrides previously defined userID with the new one:
+Overrides the previously defined userID with a new one:
 
 	push.setUserId(newUserId, successCallback, errorCallback),
 	
 	successCallback: function(), 
 	errorCallback: function(errorCode),
 	
-Error callback accepts error codes described in chapter Error Codes 
+Error call-back accepts the following error codes:
 
+| Error Code| Description 					|
+| ---------:| ------------------------------| 
+| 1			| INTERNET_NOT_AVAILABLE		|
+| 2 		| PUSH_SERVICE_NOT_AVAILABLE	|
+| 4 		| USER_NOT_REGISTERED			|
+| 12 		| OPERATION_FAILED				|
+| 512 		| LIBRARY_NOT_INITIALIZED		|
 	
 Get current userId (`data` is object that contains field `userId`):
 	
-	push.getUserId(successCallback);
-	successCallback: function(data);
-	
-`data` parameter is like following:
-
-	{
-		userId: <USER-ID>
+	push.getUserId(successCallback),
+	successCallback: function(data) {
+		alert(data.userId);
 	}	
-
 
 #### DebugMode
 
@@ -166,27 +169,25 @@ To get logs, set debug mode enabled to `true`:
 	push.setDebugModeEnabled(true, logLevel);
 	push.setDebugModeEnabled(true);
 
-`logLevel` is integer that can take values form 0 to 4, and works only on iOS. 
-It is possible to set it on Android too, but it does not affect on result.
+`logLevel` is integer that can take on values form 0 to 4, and works only on iOS. 
+It is possible to set it on Android too, but it does not affect the result.
 
-Check is debug	mode set or not with next code:
+Check if the debug	mode has been set or not with following code:
 	
 	push.isDebugModeEnabled(successCallback),
-	successCallback: function(data)
-	
-`data` parameter is like following:
+	successCallback: function(data) {
+		alert(data.debugMode);
+	}
 
-	{
-		debugMode: true
-	}	
-
+`data` is object that contains boolean field debugMode.
 
 #### Channels
+
 If the user is already registered, subscribe him/her to channels by using 
 	
 	push.registerToChannels(args, successCallback, errorCallback);
 	
-`arguments` is JSON object like following:
+`arguments` is a JSON object like the following:
 
 	{
 	    channels: [
@@ -197,83 +198,83 @@ If the user is already registered, subscribe him/her to channels by using
 	    removeExistingChannels: true
 	}
 
-	successCallback: function(),
-	errorCallback: function(errorCode)
+`successCallback` is a function with no arguments indicating successful registration to channels, and `errorCallback` is a function with one argument (error code) indicating unsuccessful registration.
 
-User will be registered to provided channels, with the new channels created on Infobip Push service if you haven't already created them per application. Once you set `removeExistingChannels` field to true, existing channels on the Push service will be deleted, and a list of new channels will replace them. If false, existing channels will stay intact and user will be registered to newly provided list of channels. Monitor channel registration success by providing callback functions.
+User will be registered to provided channels, with the new channels created on Infobip Push service if you haven't already created them per application. Once you set `removeExistingChannels` field to true, existing channels on the Push service will be deleted, and a list of new channels will replace them. If false, existing channels will stay intact and user will be registered to the newly provided list of channels. Monitor channel registration success by providing callback functions.
 
-Channels that you registered your user to are saved on the Infobip Push service. You can obtain them using:
+Channels to which you registered your user are saved on Infobip's Push service. You can obtain them by using:
  
 	push.getRegisteredChannels(getRegisteredChannelsCallback, errorCallback);
 	
-Callback that accepts obtained channels should look like this:
+Call-back that accepts previously obtained channels should look like this:
 	
 	getRegisteredChannelsCallback: function(channels)
 	
-and error callback is like following:
+and error call-back should look like:
 
 	errorCallback: function(error)
 	
-	
-`channels` is JSON list of obtained channels
+`channels` is a JSON list of obtained channels.
 `error` is one of following error codes in table below
-	
-Error callback accepts error codes described in chapter Error Codes 
 
-
-#### Registration
-`push.unregister();` - unregister from Infobip Push Notification service. `onUnregistered` event of notification listener callback (set in `push.initialize`) will be fired upon successful unregistration.
-
-checks whether application is registered or not to Infobip Push service
-
-`push.isRegistered(isRegisteredClb);`
-
-`isRegisteredClb` should look like this:
-
-	isRegisteredClb: function(response);
-	
-`response` parameter is like following:
-
-	{
-		isRegistered: true
-	}	
-
-    
-Callback function has one argument (JSON object) which has field `isRegistered` of boolean type.
-Alternative this should take next form: 
-
-	push.isRegistered(function(response){alert(response.isRegistered);});
-            
-
-#### Unreceived
-To get a list of unreceived push notifications call this function:
-
-	push.getUnreceivedNotifications(unreceivedNotificationsCallback, errorCallback);
-	
-`unreceivedNotificationsCallback` is callback function that accept one parameter `notificationArray` (JSONArray of notification objects) and could look like this:
-
-    unreceivedNotificationsCallback: function(notificationArray)
-    
-and  `errorCallback` like folowing, where error represents one of error codes from table below: 
-	
-	errorCallback: function(error)
+List of possible error codes
 
 | Error Code| Description 					|
-| ---------:| -----------------------------| 
+| ---------:| ------------------------------| 
 | 1			| INTERNET_NOT_AVAILABLE		|
 | 2 		| PUSH_SERVICE_NOT_AVAILABLE	|
 | 4 		| USER_NOT_REGISTERED			|
 | 12 		| OPERATION_FAILED				|
 | 512 		| LIBRARY_NOT_INITIALIZED		|
 
+#### Registration
+
+`push.unregister();` - unregister from Infobip's Push Notification service. `onUnregistered` event of notification listener call-back (set in `push.initialize`) will be launched upon unregistering.
+
+Checks whether the application is registered to Infobip's Push service
+
+`push.isRegistered(isRegisteredClb);`
+
+`isRegisteredClb` should look like this:
+
+	isRegisteredClb: function(response) {
+		alert(response.isRegistered);
+	}
+    
+The call-back function has one argument (JSON object) which has a field `isRegistered` of boolean type.
+Alternatively, this should take on the following form: 
+
+	push.isRegistered(function(response){alert(response.isRegistered);});
+
+#### Unreceived
+
+To get a list of unreceived push notifications simply call this function:
+
+	push.getUnreceivedNotifications(unreceivedNotificationsCallback, errorCallback);
+	
+`unreceivedNotificationsCallback` is call-back function that accepts one parameter `notificationArray` (JSON array of notification objects) and could look like this:
+
+    unreceivedNotificationsCallback: function(notificationArray)
+    
+and `errorCallback` like the following, where the error represents one of the error codes from table below: 
+	
+	errorCallback: function(error)
+
+| Error Code| Description 					|
+| ---------:| ------------------------------| 
+| 1			| INTERNET_NOT_AVAILABLE		|
+| 2 		| PUSH_SERVICE_NOT_AVAILABLE	|
+| 4 		| USER_NOT_REGISTERED			|
+| 12 		| OPERATION_FAILED				|
+| 512 		| LIBRARY_NOT_INITIALIZED		|
 
 #### DeviceId
-Device ID is unique device identifier in the Infobip Push system.
-It can be used to send push notifications to a specific user. It will be created only once. To get it, use next function:
+
+Device ID is a unique device identifier in Infobip's Push system. It can be used to send push notifications to a specific user. It will be created only once. To get it, use the following function:
 	
 	push.getDeviceId(successCallback)
 	
-`successCallback` accepts one parameter (JSON Object) that contain field `deviceId`. Example of usage is next: 
+`successCallback` accepts one parameter (JSON Object) that contain field `deviceId`. Usage example: 
 
 	successCallback: function(response){
     	alert(response.deviceId);
@@ -281,11 +282,11 @@ It can be used to send push notifications to a specific user. It will be created
 	
 #### Notify Notification Opened
 
-To notify Infobip Push Service, that notification is opened call
+To notify the Infobip Push Service that the notification has been opened, call
 
 	notifyNotificationOpened(args)
 
-`args` parameter is JSON Object like following:
+`args` parameter is a JSON Object like the following:
 
 	{
 	    notificationId: "<NOTIFICATION-ID>",
@@ -293,22 +294,111 @@ To notify Infobip Push Service, that notification is opened call
 	    errorCallback: function(error){}
 	}
 
-On iOS, notifying that notification is opened in not possible to do automatically, so you need to call this function manually.
+On iOS, automatically notifying that a notification has been opened currently isn't possible so you need to call this function manually.
 
-Also, on Android, when application receive invisible notification (see `overrideDefaultMessageHandling`), you need to manually call `notifyNotificationOpened` function
+Also, on Android, when the application receives invisible notification (see `overrideDefaultMessageHandling`), you need to manually call the `notifyNotificationOpened` function.
+	
+### Location	
+
+In our Push library version 1.1.1 we introduced our own location service that acquires your user's latest location and periodically sends it to the Infobip Push service in the background. By using this service, your location can be retrieved with all the location providers: GPS, NETWORK or PASSIVE provider.
+
+Start Push location service using `push.enableLocation()` to track your user's location and stop it with `push.disableLocation()` method. Once started, Push location service periodically sends location updates to the Infobip's Push service. Time interval between these location updates can be set by `push.setLocationUpdateTimeInterval(interval, errorCallback)`, where `interval` is integer value in minutes, and `errorCallback` is call-back function with one argument that represents error code.
+
+To enable location service, use function below:
+
+	push.enableLocation();
+	
+and to disable sending location to Push Service use the following function:
+
+	push.disableLocation();
+
+To check if Infobip's Push location service is enabled use
+	
+	isLocationEnabled(successClb)
+	
+where `successClb` is like the following:
+
+	successClb: function(data) {
+		alert(data.isLocationEnabled);
+	}
+	
+Success callback accepts one parameter (JSON Object) that has boolean field `isLocationEnabled`.
+	
+#### Time Interval (location)
+
+To change default time interval for updating your user's location (15 min), use the following function:
+	
+	push.setLocationUpdateTimeInterval(interval, errorCallback);
+	
+where `errorCallback` is like following:
+
+	errorCallback: function(errorCode) {
+		alert("Error code: " + errorCode);
+	}
+	
+Getting current update time interval is possible with the following function:
+
+	push.getLocationUpdateTimeInterval(successClb);
+
+where `successClb` is like the following:
+
+	successClb: function(data) {
+		alert(data.getLocationUpdateTimeInterval)
+	}
+	
+Only parameter in call-back function is like following:
+
+	{
+		getLocationUpdateTimeInterval: 25 // In minutes
+	}
 
 
+#### Media Data
 
-#### AndroidManifest (Android only)
-To make sure that nothing required is missing in your Android manifest file, use next method. Any error will be logged, so please check your LogCat to verify that manifest is properly configured.
+Media content refers to multimedia content (image, video, audio) wrapped inside HTML tags. You can check if notification received has any media content simply by comparing it's `mediaData` field to `undefined` or empty string, which is also done in `push.isMediaNotification(notification, callback)` function. Here, `callback` is function with one boolean parameter, indicating whether notification contains any media data.
+
+#### Media View
+
+Media View is used to show media content from the media push notification. Using Infobip's Media View is optional which means that at any time you can create your own kind of Media View where you can show the media content from notification. Infobip's Media View offers basic functionality of showing media content inside rounded web view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application needs.
+
+To use Infobip's Media View call function below:
+
+	push.addMediaView(notification, customization, errorCallback);
+
+`notification` is notification with media content received from Infobip Push server,
+`customization` is JSON object used to customize media view outlook and is like the following:
+	
+	{
+		x: 10,
+		y: 20,
+		width: 100,
+		height: 200,
+		shadow: true,
+		radius: 15,
+		dismissButtonSize: 20,
+		foregroundColor: "#ffffff",
+		backgroundColor: "#000000"
+	}
+
+`errorCallback` is call-back function that accepts one parameter (`errorCode`) and is like the following:
+
+	errorCallback: function(errorCode) {
+		alert("Error code: " + errorCode);
+	}
+
+### Android only
+
+#### AndroidManifest
+
+To make sure that nothing required is missing in your Android manifest file, use the following method. Any error will be logged, so please check your LogCat to verify that the manifest has been properly configured.
 
 	checkManifest(successCallback, errorCallback)
 	
-Note: Debug mode has to be enabled to view log.
+Note: Debug mode has to be enabled to view the log.
 
-#### Application Data (Android only)
+#### Application Data
 
-To get application data call next function:
+To obtain application data call the following function:
 	
 	getApplicationData(successCallback)
 	
@@ -316,7 +406,7 @@ To get application data call next function:
 	
 	successCallback: function(data)
 	
-`data` param is like following:
+`data` parameter is like the following:
 
 	{
 	     senderId: "<SENDER-ID>",
@@ -325,9 +415,9 @@ To get application data call next function:
 	     applicationSecret: "<APPLICATION-SECRET>",
 	}
 	
-#### Builder Data (Android only)
+#### Builder Data
 
-To get builder data call next function:
+To obtain builder data call the following function:
 
 	getBuilderData(successCallback, errorCallback)
 
@@ -335,11 +425,11 @@ To get builder data call next function:
 	
 	successCallback: function(data)
 
-To set builder data call next function:
+To set builder data call the following function:
 
 	setBuilderData: function(data, successCallback, errorCallback);
 	
-`data` param in both cases should look like following:
+`data` parameter on both cases should look like the following:
 
     {
         tickerText: "Infobip Push Demo",
@@ -363,167 +453,97 @@ To set builder data call next function:
 
 
 * `tickerText` represents text to scroll across the screen when this item is added to the status bar.
-* `applicationName` represents application name shown in the notification drawer as a title if the title isn't sent via push notification.  
-* `sound`, `vibration` and `light` can take one of tree possible values
+* `applicationName` represents the application name shown in the notification drawer as a title if the title isn't sent via push notification.  
+* `sound`, `vibration` and `light` can take on one of three possible values.
 	* -1 means UNSET
 	*  0 means DISABLED
 	*  1 means ENABLED 
 * `vibrationPattern` Pass in an array of ints that are the durations for which to turn on or off the vibrator in milliseconds.
 * `lightsColor` Sets the color of the LED light. 
 * `lightsOnOffMS` Sets the number of milliseconds for the LED to be on and off while it's flashing.
-* `quietTime` Quiet time is an interval set with `startHour`, `startMinute`, `endHour`, `endMinute` that determines the time when the sound, vibration and flashing lights won't perform on the notification receival. Hours are in 24-hour format.
+* `quietTime` Quiet time is an interval set with `startHour`, `startMinute`, `endHour`, `endMinute` that determines the time when the sound, vibration and flashing lights won't perform on notification reception. Hours are presented in a 24-hour format.
 
-#### Override Default Message Handling (Android only)
+<!--Using this function, you can override default message handling on your Android. Combined with `setBuilderData`, you can highly customize your application's notifications. TODO: give link or extensive description of how this can be done
+-->
 
-Use next function to override the default message handling, where `shouldOverride` value is set to true:
+#### Override Default Message Handling
+
+Use the following function to override default message handling, where `shouldOverride` value is set to true:
 
 	overrideDefaultMessageHandling(shouldOverride)
 
 Overriding default notification handling means that:
 
-* the plugin won't display the received notification
-* to track the notification opened statistics you will have to manually call the `notifyNotificationOpened(args)` function
+* the library won't display the received notification
+* to track notification opened statistics you will have to manually call the `notifyNotificationOpened(args)` function
 
-#### Remove Saved Builder Data (Android only)
+#### Remove Saved Builder Data
 
-To remove saved builder data call next function:
+To remove saved builder data call the following function:
 
 	push.removeSavedBuilderData();
 
-#### Set Quiet Time Enabled (Android only)
+#### Enable Quiet Time
 
-Provide your user the time when sound, vibration and flashing lights won't perform by implementing the quiet time.
+Set a time when sound, vibration and flashing lights won't be active for your user by implementing quiet time.
 
 	push.setQuietTimeEnabled(ind); 
 
-where `ind` is boolean that indicates weather you want or not to enable quiet time
-
-Quiet time interval is set with the start hour, start minute, end hour, end minute parameters, in `data` object passed to `setBuilderData`,  where hour is in 24-hour time format.
-	
-
-<!--Using this function, you can override default message handling on your Android. Combined with `setBuilderData`, you can highly customize your application's notifications. TODO: give link or extensive description of how this can be done
--->
+where `ind` is boolean that indicates the state of quiet time.
+Quiet time interval is set with the start hour, start minute, end hour, end minute parameters, in `data` object passed to `setBuilderData`,  where time is set in a 24-hour time format.
 
 #### Timezone offset
 
-Automatic timezone offset updates are enabled by default. The value of the timezone offset is the time difference in minutes between GMT and user's current location. Information on timezone offset for each user can be useful when sending a scheduled notification for which you want each user to receive it in the specific time according to the timezone they are in.
+Automatic update of timezone offset is enabled by default. The value of the timezone offset is the time difference in minutes between GMT and your user's current location. Information on timezone offset for each user can be useful when sending a scheduled notification for which you want each user to receive it in the specific time according to the timezone they are in.
 
-You can manually set timezone offset in minutes using following function:
+You can manually set timezone offset in minutes using the following function:
 	
 	push.setTimezoneOffsetInMinutes(minutes);
 	
-If you manually set timezone offset then the default automatic timezone offset updates will be disabled. Also if you enable automatic timezone offset updates again, then the manually timezone offset value will be overridden by automatic updates. To enable automatic timezone offset updates you should use function:
+If you manually set timezone offset then the default automatic timezone offset updates will be disabled. Also, if you enable automatic timezone offset updates again, then the manually timezone offset value will be overridden by automatic updates. To enable automatic timezone offset updates you should use the following function:
 
 	push.setTimezoneOffsetAutomaticUpdateEnabled(ind);
 	
-`ind` is boolean value;
-
-#### Badge number (iOS Only)
-
-iOS will automatically set the application badge to the `badge` number received in the push notification. Your responsibility is to handle the badge number within the app according to unread notifications count. Use this code anywhere in the app to set the badge number:
-	
-	push.setBadgeNumber(num);
-	
-
-#### Dismiss All Notifications (iOS Only)
-To dismiss all notifications from notification bar, connected to your application, call next function:
-	
-	push.cancelAllNotifications();
-	
-#### Media View
-Media View is used to show media content from the media push notification. Media content referes to multimedia content (image, video, audio) wrapped inside HTML tags. Using Infobip Media View is optional which means that at any time you can create your own Media View where you will show the media content from the media push notification. Infobip Media View offers basic functionality of showing media content inside rounded view with the default shadow around it. View also has a dismiss button through which the user can dismiss the Media View. Any of these fields can be changed according to your application needs, so for instance you can change dismiss button; enable or disable the default shadow or even change corner radius size of the view.
-
-To use Infobip Media View call function below:
-
-	push.addMediaView(notification, customization, errorCallback);
-
-`notification` is media notification received from Infobip Push server,
-`customization` is JSON Object to customize media view outlook and contains next fields:
-	
-	{
-		x: 10,
-		y: 20,
-		width: 100,
-		height: 200,
-		shadow: true,
-		radius: 15,
-		dismissButtonSize: 20,
-		foregroundColor: "#ffffff",
-		backgroundColor: "#000000"
-	}
-
-`errorCallback` is callback function that accept one parameter(`errorCode`)
-
-	errorCallback: function(errorCode);
-
-
-### Location	
-
-In Push library version 1.1.1 we introduced our own location service that acquires user's latest location and sends it periodically to the Infobip Push service in the background. By using this service, your location can be retrieved with all the location providers: GPS, NETWORK or PASSIVE provider.
-
-Start Push location service using `push.enableLocation()` to track user's location and stop it with `push.disableLocation()` method. Once started, Push location service sends location updates to the Infobip Push service in the default interval, or in the interval specified using `push.setLocationUpdateTimeInterval(interveal, errorClb)`, where you define int value in minutes.
-
-
-To enable location use function below:
-
-	push.enableLocation();
-	
-and for disable sending location to Push Service use next function:
-
-	push.disableLocation();
-
-To check, is location enabled or not use
-	
-	isLocationEnabled(successClb)
-	successClb: function(data)
-	
-Data parameter is like following:
-
-	{
-		isLocationEnabled: true
-	}	
-
-Success callback accepts parameter (JSON Object), that has boolean field `isLocationEnabled`.
-	
-#### Time Interval
-
-To change default time interval (15 min), use next function:
-	
-	push.setLocationUpdateTimeInterval(interveal, errorClb);
-	errorClb: function(errorMessage);
-	
-Getting current time interval is possible with following function:
-
-	push.getLocationUpdateTimeInterval(successClb);
-	successClb: function(data);
-	
-Data parameter is like following:
-
-	{
-		getLocationUpdateTimeInterval: 25 //minutes
-	}
-
-
-#### Background Location Update (iOS only)
-
-On iOS, location updates works only when the application is active. Background location updates are disabled by default. To enable background location updates, use the following function:
-
-	push.setBackgroundLocationUpdateModeEnabled(ind)
-
 where `ind` is boolean value.
 
-To check, is background location update enabled or not use next function:
+### iOS only
+
+#### Badge number
+
+iOS will automatically set the application's badge number to the `badge` (number) field received in the push notification. It's up to you to handle the badge number within the application according to unread notifications count. Use this code anywhere in the app to set the badge number:
+	
+	push.setBadgeNumber(num);
+
+#### Dismiss All Notifications
+
+To dismiss all notifications from notification bar call the following function:
+	
+	push.cancelAllNotifications();
+
+#### Background Location Update
+
+On iOS, location updates work only when the application is active. Background location updates are disabled by default. To enable background location updates, use the following function:
+
+	push.setBackgroundLocationUpdateModeEnabled(enabled)
+
+where `enabled` is boolean value.
+
+To check if background location update is enabled on iOS, use the following function:
 	
 	push.backgroundLocationUpdateModeEnabled(successClb);
-	successClb: function(data)
 	
-Data parameter is like following:
+where `successClb` is function like:
+
+	successClb: function(data) {
+		alert(data.isBackgroundLocation);
+	}
+	
+Data parameter is JSON object like the following:
 
 	{
 		isBackgroundLocation: true
-	}	
-	
- 
+	}
+
 Error Codes
 -----------	 
 		 	 
