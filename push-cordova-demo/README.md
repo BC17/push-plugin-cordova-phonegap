@@ -1,13 +1,13 @@
-Push Notification Plugin Demo Application for Cordova
+Push Notification & Centili in-app Payment Plugin Demo Application for Cordova
 ====================================
 
-Application made for demonstrational purposes of Infobip services plugins for Apache Cordova.
+Application made for demonstrational purposes of Infobip service plugins for Apache Cordova.
 
 Requirements
 ------------
 
 * Cordova (since version [at least] 3.3.0).
-* Before cloning, have the directory contain initialized cordova project by `$ cordova create com.infobip.pushHello HelloCordova`.
+* Before cloning, make sure the directory contains the initialized Cordova project by `$ cordova create com.infobip.pushHello HelloCordova`.
 * Installed plugins (org.apache.cordova.device, com.infobip.push.cordova & com.infobip.mpay) via `$ cordova plugins add <plugin>`
 * Have platforms of your choice enabled. (`$ cordova platforms add <platform>`, `ios` and `android` supported by our push plugin, and `android` by mobile payment plugin)
 
