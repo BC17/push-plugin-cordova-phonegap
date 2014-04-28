@@ -1,12 +1,12 @@
 Infobip Push Notification Plugin for Cordova
 ====================================
 
-Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing its clients with the  ability to send push notifications to various devices, enabling  rich media push, geographical targeted sending areas, delivery reports, and much more.
+Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing its clients with the  ability to send push notifications to various devices, enabling rich media push, geographical targeted sending areas, delivery reports, and much more.
 
 Installation
 ------------
 
-To install the plugin to your Cordova project use the Cordova CLI Tool:
+To install the plugin to your Cordova (PhoneGap, Ionic...) project use the Cordova CLI Tool:
 	
 	$ cordova plugin add com.infobip.push.cordova
 
