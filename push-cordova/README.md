@@ -16,7 +16,8 @@ Requirements
 * `Android™`
 	* Set the minimal required Android SDK version to 8 because GCM push is enabled only from that Android OS version and above.
 * `iOS™`
-	* Tested on iOS 6 and 7
+	* Tested on iOS 6 and 7. 
+	* Manage certificates as explained in "APNs setup manual" section [here](https://push.infobip.com/docs).
 
 Basic Usage
 -----------
@@ -39,7 +40,6 @@ The first thing you should do is to initialize push plugin with `push.initialize
 This code will initialize push notifications with `notificationListener` call-back listener:
  
 	push.initialize(notificationListener);
-	
 
 Sample implementation of `notificationListener` call-back listener:
 
@@ -71,7 +71,7 @@ Sample implementation of `notificationListener` call-back listener:
 
 ### Registration
 
-You need only one more function to make the magic happen. Its `push.register(regData);`. It's first argument is a JSON object containing the mandatory:
+You need only one more function to make the magic happen. It's `push.register(regData);` and it should be called after calling `push.initialize(notificationListener);` function. It's first argument is a JSON object containing the mandatory:
 
 * `applicationId` - Application UID from Infobip's Push Portal.
 * `applicationSecret` - Application Secret from Infobip's Push Portal.
@@ -80,7 +80,7 @@ You need only one more function to make the magic happen. Its `push.register(reg
 and the optional:
 
 * `registrationData` - JSON object containing:
-	* `userId` - User ID which you can use for custom targeting of push notifications from the portal. If omitted, it will be random hash.
+	* `userId` - User ID which you can use for custom targeting of push notifications from the portal. If omitted, it will be random hash. This is one-word only (underscores and alphanumerics can be used).
 	* `channels` - JSON array of strings representing channel names to which the application will register.
 
 #### Example of a registration object
@@ -100,8 +100,6 @@ and the optional:
 	        ]
 	    }
 	}
-
-
 		
 That was the core of your application's interaction with our plugin. Other than that, there are multiple functions you can use. We will list them all in the following chapter.
 
@@ -169,7 +167,7 @@ To get logs, set debug mode enabled to `true`:
 	push.setDebugModeEnabled(true, logLevel);
 	push.setDebugModeEnabled(true);
 
-`logLevel` is integer that can take on values form 0 to 4, and works only on iOS. 
+`logLevel` is integer that can take on values from 0 to 3, and works only on iOS. 
 It is possible to set it on Android too, but it does not affect the result.
 
 Check if the debug	mode has been set or not with following code:
@@ -544,8 +542,10 @@ Data parameter is JSON object like the following:
 		isBackgroundLocation: true
 	}
 
-Error Codes
------------	 
+Error codes
+-----------
+
+### Android error codes
 		 	 
 <table><tr>
     <th>
@@ -762,6 +762,96 @@ Error Codes
 </tbody>
 </table>
 
+### iOS error codes
+
+<table><tr>
+    <th>
+        Reason
+    </th>
+    <th>
+        Description
+    </th>
+    <th>
+        Value
+    </th>
+</tr>
+<tbody>
+<tr>
+    <td>
+       IPPushNetworkError         
+    </td>
+ 
+    <td>
+        An error when something is wrong with network, either no network or server error.
+    </td>
+    <td>
+        0
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushNoMessageIDError 
+    </td>
+ 
+    <td>
+        An error when there's no messageID in push notification and library can't execute an operation without it.
+
+
+    </td>
+    <td>
+        1
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushJSONError
+    </td>
+        <td>
+        An error with JSON encoding/decoding.
+    </td>
+    <td>
+        2
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushNoLocationError 
+    </td>
+       <td>
+        An error when library can't get user location.
+    </td>
+    <td>
+        3
+    </td>
+</tr>
+<tr>
+    <td>
+        IPPushNoDeviceTokenError
+    </td>
+        <td>
+        An error when there's no device token and library can't execute an operation without it.
+    </td>
+    <td>
+        4
+    </td>
+</tr>
+<tr>
+    <td>
+       IPPushNotificationChannelsArrayEmptyError 
+    </td>
+       <td>
+        An error when channels array is empty.
+       </td>
+    <td>
+        5
+    </td>
+</tr>
+
+
+</tbody>
+</table>
+
+
 Owners
 ------
 
@@ -769,6 +859,6 @@ Framework Integration Team @ Belgrade, Serbia
 
 *Android is a trademark of Google Inc.*
 
-*IOS is a trademark of Cisco in the U.S. and other countries and is used under license.*
+*iOS is a trademark of Cisco in the U.S. and other countries and is used under license.*
 
 © 2013-2014, Infobip Ltd.
