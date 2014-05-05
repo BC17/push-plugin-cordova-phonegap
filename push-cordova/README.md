@@ -80,7 +80,7 @@ You need only one more function to make the magic happen. It's `push.register(re
 and the optional:
 
 * `registrationData` - JSON object containing:
-	* `userId` - User ID which you can use for custom targeting of push notifications from the portal. If omitted, it will be random hash. This is one-word only (underscores and alphanumerics can be used).
+	* `userId` - User ID which you can use for custom targeting of push notifications from the portal. If omitted, it will be random hash.
 	* `channels` - JSON array of strings representing channel names to which the application will register.
 
 #### Example of a registration object
