@@ -1,13 +1,13 @@
 Infobip Push Notification Plugin for Cordova
 ====================================
 
-Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing its clients with the  ability to send push notifications to various devices, enabling rich media push, geographical targeted sending areas, delivery reports, and much more.
+Infobip Push is a service by Infobip Ltd. ([Infobip Push](https://push.infobip.com)) providing its clients with the  ability to send push notifications to various devices, enabling  rich media push, geographical targeted sending areas, delivery reports, and much more.
 
 Installation
 ------------
 
-To install the plugin to your Cordova (PhoneGap, Ionic...) project use the Cordova CLI Tool:
-	
+To install the plugin to your Cordova project use the Cordova CLI Tool:
+
 	$ cordova plugin add com.infobip.push.cordova
 
 Requirements
@@ -16,7 +16,7 @@ Requirements
 * `Android™`
 	* Set the minimal required Android SDK version to 8 because GCM push is enabled only from that Android OS version and above.
 * `iOS™`
-	* Tested on iOS 6 and 7. 
+	* Tested on iOS 6 and 7.
 	* Manage certificates as explained in "APNs setup manual" section [here](https://push.infobip.com/docs).
 
 Basic Usage
@@ -38,7 +38,7 @@ The first thing you should do is to initialize push plugin with `push.initialize
 #### Usage examples:
 
 This code will initialize push notifications with `notificationListener` call-back listener:
- 
+
 	push.initialize(notificationListener);
 
 Sample implementation of `notificationListener` call-back listener:
@@ -88,11 +88,11 @@ and the optional:
 	regData: {
 	    applicationId: "<YOUR-APPLICATION-ID>",
 	    applicationSecret: "<YOUR-APPLICATION-SECRET>",
-	    senderId: "<YOUR-SENDER-ID>",	    
-	
+	    senderId: "<YOUR-SENDER-ID>",
+
 	    registrationData: {
 	        userId: "<SOME-USER-ID>",
-	        channels: 
+	        channels:
 	        [
 	            "news",
 	            "sport",
@@ -100,7 +100,7 @@ and the optional:
 	        ]
 	    }
 	}
-		
+
 That was the core of your application's interaction with our plugin. Other than that, there are multiple functions you can use. We will list them all in the following chapter.
 
 Advanced usage
@@ -139,39 +139,39 @@ Depending on the operating system, some fields will bw non-existent.
 Overrides the previously defined userID with a new one:
 
 	push.setUserId(newUserId, successCallback, errorCallback),
-	
-	successCallback: function(), 
+
+	successCallback: function(),
 	errorCallback: function(errorCode),
-	
+
 Error call-back accepts the following error codes:
 
 | Error Code| Description 					|
-| ---------:| ------------------------------| 
+| ---------:| ------------------------------|
 | 1			| INTERNET_NOT_AVAILABLE		|
 | 2 		| PUSH_SERVICE_NOT_AVAILABLE	|
 | 4 		| USER_NOT_REGISTERED			|
 | 12 		| OPERATION_FAILED				|
 | 512 		| LIBRARY_NOT_INITIALIZED		|
-	
-Get current userId (`data` is object that contains field `userId`):
-	
+
+Get current userId:
+
 	push.getUserId(successCallback),
-	successCallback: function(data) {
-		alert(data.userId);
-	}	
+	successCallback: function(userId) {
+		alert(userId);
+	}
 
 #### DebugMode
 
 To get logs, set debug mode enabled to `true`:
-	
+
 	push.setDebugModeEnabled(true, logLevel);
 	push.setDebugModeEnabled(true);
 
-`logLevel` is integer that can take on values from 0 to 3, and works only on iOS. 
+`logLevel` is integer that can take on values from 0 to 3, and works only on iOS.
 It is possible to set it on Android too, but it does not affect the result.
 
 Check if the debug	mode has been set or not with following code:
-	
+
 	push.isDebugModeEnabled(successCallback),
 	successCallback: function(data) {
 		alert(data.debugMode);
@@ -181,10 +181,10 @@ Check if the debug	mode has been set or not with following code:
 
 #### Channels
 
-If the user is already registered, subscribe him/her to channels by using 
-	
+If the user is already registered, subscribe him/her to channels by using
+
 	push.registerToChannels(args, successCallback, errorCallback);
-	
+
 `arguments` is a JSON object like the following:
 
 	{
@@ -201,24 +201,24 @@ If the user is already registered, subscribe him/her to channels by using
 User will be registered to provided channels, with the new channels created on Infobip Push service if you haven't already created them per application. Once you set `removeExistingChannels` field to true, existing channels on the Push service will be deleted, and a list of new channels will replace them. If false, existing channels will stay intact and user will be registered to the newly provided list of channels. Monitor channel registration success by providing callback functions.
 
 Channels to which you registered your user are saved on Infobip's Push service. You can obtain them by using:
- 
+
 	push.getRegisteredChannels(getRegisteredChannelsCallback, errorCallback);
-	
+
 Call-back that accepts previously obtained channels should look like this:
-	
+
 	getRegisteredChannelsCallback: function(channels)
-	
+
 and error call-back should look like:
 
 	errorCallback: function(error)
-	
+
 `channels` is a JSON list of obtained channels.
 `error` is one of following error codes in table below
 
 List of possible error codes
 
 | Error Code| Description 					|
-| ---------:| ------------------------------| 
+| ---------:| ------------------------------|
 | 1			| INTERNET_NOT_AVAILABLE		|
 | 2 		| PUSH_SERVICE_NOT_AVAILABLE	|
 | 4 		| USER_NOT_REGISTERED			|
@@ -238,9 +238,9 @@ Checks whether the application is registered to Infobip's Push service
 	isRegisteredClb: function(response) {
 		alert(response.isRegistered);
 	}
-    
+
 The call-back function has one argument (JSON object) which has a field `isRegistered` of boolean type.
-Alternatively, this should take on the following form: 
+Alternatively, this should take on the following form:
 
 	push.isRegistered(function(response){alert(response.isRegistered);});
 
@@ -249,17 +249,17 @@ Alternatively, this should take on the following form:
 To get a list of unreceived push notifications simply call this function:
 
 	push.getUnreceivedNotifications(unreceivedNotificationsCallback, errorCallback);
-	
+
 `unreceivedNotificationsCallback` is call-back function that accepts one parameter `notificationArray` (JSON array of notification objects) and could look like this:
 
     unreceivedNotificationsCallback: function(notificationArray)
-    
-and `errorCallback` like the following, where the error represents one of the error codes from table below: 
-	
+
+and `errorCallback` like the following, where the error represents one of the error codes from table below:
+
 	errorCallback: function(error)
 
 | Error Code| Description 					|
-| ---------:| ------------------------------| 
+| ---------:| ------------------------------|
 | 1			| INTERNET_NOT_AVAILABLE		|
 | 2 		| PUSH_SERVICE_NOT_AVAILABLE	|
 | 4 		| USER_NOT_REGISTERED			|
@@ -269,15 +269,15 @@ and `errorCallback` like the following, where the error represents one of the er
 #### DeviceId
 
 Device ID is a unique device identifier in Infobip's Push system. It can be used to send push notifications to a specific user. It will be created only once. To get it, use the following function:
-	
+
 	push.getDeviceId(successCallback)
-	
-`successCallback` accepts one parameter (JSON Object) that contain field `deviceId`. Usage example: 
+
+`successCallback` accepts one parameter (JSON Object) that contain field `deviceId`. Usage example:
 
 	successCallback: function(response){
     	alert(response.deviceId);
 	});
-	
+
 #### Notify Notification Opened
 
 To notify the Infobip Push Service that the notification has been opened, call
@@ -295,8 +295,8 @@ To notify the Infobip Push Service that the notification has been opened, call
 On iOS, automatically notifying that a notification has been opened currently isn't possible so you need to call this function manually.
 
 Also, on Android, when the application receives invisible notification (see `overrideDefaultMessageHandling`), you need to manually call the `notifyNotificationOpened` function.
-	
-### Location	
+
+### Location
 
 In our Push library version 1.1.1 we introduced our own location service that acquires your user's latest location and periodically sends it to the Infobip Push service in the background. By using this service, your location can be retrieved with all the location providers: GPS, NETWORK or PASSIVE provider.
 
@@ -305,35 +305,35 @@ Start Push location service using `push.enableLocation()` to track your user's l
 To enable location service, use function below:
 
 	push.enableLocation();
-	
+
 and to disable sending location to Push Service use the following function:
 
 	push.disableLocation();
 
 To check if Infobip's Push location service is enabled use
-	
+
 	isLocationEnabled(successClb)
-	
+
 where `successClb` is like the following:
 
 	successClb: function(data) {
 		alert(data.isLocationEnabled);
 	}
-	
+
 Success callback accepts one parameter (JSON Object) that has boolean field `isLocationEnabled`.
-	
+
 #### Time Interval (location)
 
 To change default time interval for updating your user's location (15 min), use the following function:
-	
+
 	push.setLocationUpdateTimeInterval(interval, errorCallback);
-	
+
 where `errorCallback` is like following:
 
 	errorCallback: function(errorCode) {
 		alert("Error code: " + errorCode);
 	}
-	
+
 Getting current update time interval is possible with the following function:
 
 	push.getLocationUpdateTimeInterval(successClb);
@@ -343,7 +343,7 @@ where `successClb` is like the following:
 	successClb: function(data) {
 		alert(data.getLocationUpdateTimeInterval)
 	}
-	
+
 Only parameter in call-back function is like following:
 
 	{
@@ -365,7 +365,7 @@ To use Infobip's Media View call function below:
 
 `notification` is notification with media content received from Infobip Push server,
 `customization` is JSON object used to customize media view outlook and is like the following:
-	
+
 	{
 		x: 10,
 		y: 20,
@@ -391,19 +391,19 @@ To use Infobip's Media View call function below:
 To make sure that nothing required is missing in your Android manifest file, use the following method. Any error will be logged, so please check your LogCat to verify that the manifest has been properly configured.
 
 	checkManifest(successCallback, errorCallback)
-	
+
 Note: Debug mode has to be enabled to view the log.
 
 #### Application Data
 
 To obtain application data call the following function:
-	
+
 	getApplicationData(successCallback)
-	
-`successCallback` accepts one parameter (JSON Object), that should look like following: 
-	
+
+`successCallback` accepts one parameter (JSON Object), that should look like following:
+
 	successCallback: function(data)
-	
+
 `data` parameter is like the following:
 
 	{
@@ -412,21 +412,21 @@ To obtain application data call the following function:
 	     applicationId: "<APPLICATION-ID>",
 	     applicationSecret: "<APPLICATION-SECRET>",
 	}
-	
+
 #### Builder Data
 
 To obtain builder data call the following function:
 
 	getBuilderData(successCallback, errorCallback)
 
-`successCallback` accepts one parameter (JSON Object), that should look like following: 
-	
+`successCallback` accepts one parameter (JSON Object), that should look like following:
+
 	successCallback: function(data)
 
 To set builder data call the following function:
 
 	setBuilderData: function(data, successCallback, errorCallback);
-	
+
 `data` parameter on both cases should look like the following:
 
     {
@@ -455,9 +455,9 @@ To set builder data call the following function:
 * `sound`, `vibration` and `light` can take on one of three possible values.
 	* -1 means UNSET
 	*  0 means DISABLED
-	*  1 means ENABLED 
+	*  1 means ENABLED
 * `vibrationPattern` Pass in an array of ints that are the durations for which to turn on or off the vibrator in milliseconds.
-* `lightsColor` Sets the color of the LED light. 
+* `lightsColor` Sets the color of the LED light.
 * `lightsOnOffMS` Sets the number of milliseconds for the LED to be on and off while it's flashing.
 * `quietTime` Quiet time is an interval set with `startHour`, `startMinute`, `endHour`, `endMinute` that determines the time when the sound, vibration and flashing lights won't perform on notification reception. Hours are presented in a 24-hour format.
 
@@ -485,7 +485,7 @@ To remove saved builder data call the following function:
 
 Set a time when sound, vibration and flashing lights won't be active for your user by implementing quiet time.
 
-	push.setQuietTimeEnabled(ind); 
+	push.setQuietTimeEnabled(ind);
 
 where `ind` is boolean that indicates the state of quiet time.
 Quiet time interval is set with the start hour, start minute, end hour, end minute parameters, in `data` object passed to `setBuilderData`,  where time is set in a 24-hour time format.
@@ -495,13 +495,13 @@ Quiet time interval is set with the start hour, start minute, end hour, end minu
 Automatic update of timezone offset is enabled by default. The value of the timezone offset is the time difference in minutes between GMT and your user's current location. Information on timezone offset for each user can be useful when sending a scheduled notification for which you want each user to receive it in the specific time according to the timezone they are in.
 
 You can manually set timezone offset in minutes using the following function:
-	
+
 	push.setTimezoneOffsetInMinutes(minutes);
-	
+
 If you manually set timezone offset then the default automatic timezone offset updates will be disabled. Also, if you enable automatic timezone offset updates again, then the manually timezone offset value will be overridden by automatic updates. To enable automatic timezone offset updates you should use the following function:
 
 	push.setTimezoneOffsetAutomaticUpdateEnabled(ind);
-	
+
 where `ind` is boolean value.
 
 ### iOS only
@@ -509,13 +509,13 @@ where `ind` is boolean value.
 #### Badge number
 
 iOS will automatically set the application's badge number to the `badge` (number) field received in the push notification. It's up to you to handle the badge number within the application according to unread notifications count. Use this code anywhere in the app to set the badge number:
-	
+
 	push.setBadgeNumber(num);
 
 #### Dismiss All Notifications
 
 To dismiss all notifications from notification bar call the following function:
-	
+
 	push.cancelAllNotifications();
 
 #### Background Location Update
@@ -527,15 +527,15 @@ On iOS, location updates work only when the application is active. Background lo
 where `enabled` is boolean value.
 
 To check if background location update is enabled on iOS, use the following function:
-	
+
 	push.backgroundLocationUpdateModeEnabled(successClb);
-	
+
 where `successClb` is function like:
 
 	successClb: function(data) {
 		alert(data.isBackgroundLocation);
 	}
-	
+
 Data parameter is JSON object like the following:
 
 	{
@@ -546,7 +546,7 @@ Error codes
 -----------
 
 ### Android error codes
-		 	 
+
 <table><tr>
     <th>
         Reason
@@ -778,9 +778,9 @@ Error codes
 <tbody>
 <tr>
     <td>
-       IPPushNetworkError         
+       IPPushNetworkError
     </td>
- 
+
     <td>
         An error when something is wrong with network, either no network or server error.
     </td>
@@ -790,9 +790,9 @@ Error codes
 </tr>
 <tr>
     <td>
-        IPPushNoMessageIDError 
+        IPPushNoMessageIDError
     </td>
- 
+
     <td>
         An error when there's no messageID in push notification and library can't execute an operation without it.
 
@@ -815,7 +815,7 @@ Error codes
 </tr>
 <tr>
     <td>
-        IPPushNoLocationError 
+        IPPushNoLocationError
     </td>
        <td>
         An error when library can't get user location.
@@ -837,7 +837,7 @@ Error codes
 </tr>
 <tr>
     <td>
-       IPPushNotificationChannelsArrayEmptyError 
+       IPPushNotificationChannelsArrayEmptyError
     </td>
        <td>
         An error when channels array is empty.

@@ -2,13 +2,13 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="com.infobip.push.cordova"
-        version="0.1.1">
+        version="0.2.0">
     <name>Infobip Push Notifications</name>
-    <description>Infobip Push Notification Plugin</description>
+    <description>Infobip Push Notification Plugin for Android and iOS</description>
     <license>MIT</license>
     <keywords>push, notification, infobip</keywords>
-    <author email="office@infobip.com" href="http://push.infobip.com">
-            Infobip - Mobile Integration Team
+    <author email="plugins@infobip.com" href="https://push.infobip.com">
+            Infobip - Framework Integration Team
     </author>
 
     <js-module src="www/push.js" name="Push">

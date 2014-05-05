@@ -49,7 +49,7 @@ public class CordovaPushReceiver extends AbstractPushReceiver {
 		} else {
 			jsonPush = addEventToNotification(notification, IB_ON_NOTIFICATION_RECEIVED);
 		}
-		if (Push.isActive()) {
+		if (Push.isActive() && (!Push.inPause)) {
 			Intent intent = new Intent(context, com.infobip.push.cordova.PushHandlerActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
 					| Intent.FLAG_ACTIVITY_CLEAR_TOP);

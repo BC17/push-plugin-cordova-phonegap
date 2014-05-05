@@ -54,7 +54,7 @@ static IBPush *gInstance = nil;
     NSLog(@"IBPush.m: Registration");
     
     NSDictionary * jsonObject = [command.arguments objectAtIndex:0];
-//    NSLog(@"Registration ID: %@", jsonObject);
+    //    NSLog(@"Registration ID: %@", jsonObject);
     
     // pars JSON data
     NSString * applicationId = [jsonObject objectForKey:@"applicationId"];
@@ -67,7 +67,7 @@ static IBPush *gInstance = nil;
     channels = channelsArray;
     if (channels == nil) {
         channels = [NSArray arrayWithObjects:@"ROOT", nil];
-
+        
     }
     
     // set callbackId
@@ -79,10 +79,10 @@ static IBPush *gInstance = nil;
     }
     
     // initialization and registration
-//    if ([InfobipPush isRegistered]) {
-        [InfobipPush initializeWithAppID:applicationId appSecret:applicationSecret];
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes: (UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
-//    }
+    //    if ([InfobipPush isRegistered]) {
+    [InfobipPush initializeWithAppID:applicationId appSecret:applicationSecret];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes: (UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    //    }
     
 }
 
@@ -90,7 +90,7 @@ static IBPush *gInstance = nil;
 -(void)setUserId:(CDVInvokedUrlCommand *)command {
     NSDictionary * jsonObject = [command.arguments objectAtIndex:0];
     NSString * userId = [jsonObject objectForKey:@"userId"];
-
+    
     
     if(nil != userId) {
         [InfobipPush setUserID:userId usingBlock:^(BOOL succeeded, NSError *error) {
@@ -139,7 +139,7 @@ static IBPush *gInstance = nil;
         if(succeeded){
             NSString * js = [[NSString alloc] initWithFormat:@"%@(\"onUnregistered\", -1)", notificationClb];
             [self writeJavascript:js];
-
+            
         } else {
             NSString * js = [[NSString alloc] initWithFormat:@"%@(\"onError\", %d)", notificationClb, error.code];
             [self writeJavascript:js];
@@ -182,7 +182,7 @@ static IBPush *gInstance = nil;
         } else {
             js = [NSString stringWithFormat:@"%@(\"onChannelObtainFailed\", %d)", callback, error.code];
         }
-
+        
         [self writeJavascript:js];
     }];
     
@@ -195,13 +195,13 @@ static IBPush *gInstance = nil;
     BOOL debug =(BOOL)debugObj;
     NSNumber *level=[jsonObject objectForKey:@"logLevel"];;
     InfobipPushLogLevel logLevel= [level intValue];
-
+    
     if (nil != level) {
         [InfobipPush setLogModeEnabled:debug withLogLevel:(logLevel)];
     } else {
         [InfobipPush setLogModeEnabled:debug];
     }
-
+    
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
@@ -307,24 +307,7 @@ static IBPush *gInstance = nil;
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
--(void)setBadgeNumber:(CDVInvokedUrlCommand *)command {
-    NSLog(@"IBPush.m: setBadgeNumber");
-    NSDictionary *jsonObject = [command.arguments objectAtIndex:0];
-    NSNumber *badgeNumber = [jsonObject objectForKey:@"badgeNumber"];
-    
-    [UIApplication sharedApplication].applicationIconBadgeNumber = [badgeNumber integerValue];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-
-}
-
--(void)didDismissInfobipMediaView:(InfobipMediaView*)infobipMediaView {
-    // Unregister as a delegate
-    infobipMediaView.delegate = nil;
-    
-    // Dismiss the Media View from the super view
-    [infobipMediaView removeFromSuperview];
-}
+InfobipMediaView *mediaView =nil;
 
 -(void)addMediaView:(CDVInvokedUrlCommand *)command {
     NSDictionary * jsonObject = [command.arguments objectAtIndex:0];
@@ -340,37 +323,23 @@ static IBPush *gInstance = nil;
     NSNumber * radius = [customization objectForKey:@"radius"]; //int
     
     NSNumber * dismissButtonSize = [customization objectForKey:@"dismissButtonSize"]; //int
-    NSString * foregroundColorHex = [customization objectForKey:@"foregroundColor"]; //#rrggbb string
-    NSString * backgroundColorHex = [customization objectForKey:@"backgroundColor"]; //#rrggbb string
-    
-    unsigned foregroundColorInt = 0, backgroundColorInt = 0;
-    NSScanner *scanner = [NSScanner scannerWithString:foregroundColorHex];
-    [scanner setScanLocation:1]; // bypass '#' character
-    [scanner scanHexInt:&foregroundColorInt];
-    
-    scanner = [NSScanner scannerWithString:backgroundColorHex];
-    [scanner setScanLocation:1]; // bypass '#' character
-    [scanner scanHexInt:&backgroundColorInt];
-    
-    UIColor * foregroundColor = foregroundColorHex == nil ? nil : UIColorFromRGB((foregroundColorInt));
-    UIColor * backgroundColor = backgroundColorHex == nil ? nil : UIColorFromRGB((backgroundColorInt));
+    NSNumber * forgroundColorHex = [customization objectForKey:@"forgroundColor"]; //hex
+    NSNumber * backgroundColorHex = [customization objectForKey:@"backgroundColor"]; //hex
+    UIColor * forgroundColor = UIColorFromRGB([forgroundColorHex integerValue]);
+    UIColor * backgroundColor = UIColorFromRGB([backgroundColorHex integerValue]);
     
     UIView *topView = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
     CGRect frame = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
-    InfobipMediaView *mediaView = [[InfobipMediaView alloc] initWithFrame:frame andMediaContent:mediaContent];
-
-    //set the size od dismiss button
-    if (nil != dismissButtonSize){
-        [mediaView setDismissButtonSize:[dismissButtonSize integerValue]];
-        mediaView.delegate = self;
-//        [mediaView.dismissButton addTarget:self action:@selector(didDismissInfobipMediaView:) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        dismissButtonSize = 0;
-    }
+    mediaView = [[InfobipMediaView alloc] initWithFrame:frame andMediaContent:mediaContent];
     
-    if ((nil != backgroundColor) && (nil != foregroundColor)) {
-        [mediaView setDismissButtonSize:[dismissButtonSize integerValue]
-                    withBackgroundColor:backgroundColor andForegroundColor:foregroundColor];
+    //set the size od dismiss button
+    if(nil != dismissButtonSize){
+        if ((nil != backgroundColor) && (nil != forgroundColor)) {
+            [mediaView setDismissButtonSize:[dismissButtonSize integerValue]
+                        withBackgroundColor:backgroundColor andForegroundColor:forgroundColor];
+        } else {
+            [mediaView setDismissButtonSize:[dismissButtonSize integerValue]];
+        }
     }
     
     // disabe/enable shadow
@@ -385,9 +354,30 @@ static IBPush *gInstance = nil;
         mediaView.cornerRadius = 0;
     }
     
+    // Add action with selector "dismissInfobipMediaView" to the dismiss button
+    [mediaView.dismissButton addTarget:self action:@selector(dismissInfobipMediaView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     // display media view
     [topView addSubview:mediaView];
 }
+
++(void)dismissInfobipMediaView:(UIButton *)sender {
+    // Dismiss the Media View from the super view
+    [mediaView removeFromSuperview];
+}
+
+
+-(void)setBadgeNumber:(CDVInvokedUrlCommand *)command {
+    NSLog(@"IBPush.m: setBadgeNumber");
+    NSDictionary *jsonObject = [command.arguments objectAtIndex:0];
+    NSNumber *badgeNumber = [jsonObject objectForKey:@"badgeNumber"];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = [badgeNumber integerValue];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 
 +(NSDictionary *)convertNotificationToAndroidFormat:(InfobipPushNotification *)notification {
     NSDictionary * notificationData = [notification data];
@@ -397,17 +387,18 @@ static IBPush *gInstance = nil;
     [newNotification setValue:[notification messageID] forKey:@"notificationId"];
     [newNotification setValue:[notification sound] forKey:@"sound"];
     [newNotification setValue:[notificationData objectForKey:@"url"] forKey:@"url"];
-    [newNotification setValue:[notification additionalInfo] forKey:@"additionalInfo"];
+    [newNotification setValue:[notification additionalInfo] forKey:@"aditionalInfo"];
     [newNotification setValue:[notification mediaContent] forKey:@"mediaData"];
     [newNotification setValue:[notification alert] forKey:@"title"];
     [newNotification setValue:[notificationData objectForKey:@"message"] forKey:@"message"];
     [newNotification setValue:[notification messageType] forKey:@"mimeType"];
     [newNotification setValue:[notification badge] forKey:@"badge"];
-//    [newNotification setValue:nil forKey:@"vibrate"];
-//    [newNotification setValue:nil forKey:@"light"];
+    //    [newNotification setValue:nil forKey:@"vibrate"];
+    //    [newNotification setValue:nil forKey:@"light"];
     
-//    return [[NSDictionary alloc] initWithDictionary:newNotification];
+    //    return [[NSDictionary alloc] initWithDictionary:newNotification];
     return newNotification;
 }
+
 
 @end
