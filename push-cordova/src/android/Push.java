@@ -30,8 +30,6 @@ public class Push extends CordovaPlugin {
 	private static CallbackContext clbContext;
 	PushNotificationManager manager;
 	public static boolean inPause;
-	private static String notificationOpenCallback; // temporary - not sure why
-													// this is here :P
 	private static String notificationEventListener;
 	private static CordovaWebView cordovaWebView;
 	private static List<JSONObject> cachedNnotifications = new ArrayList<JSONObject>();
@@ -54,12 +52,12 @@ public class Push extends CordovaPlugin {
 	public static final String ACTION_PUSH_OVERRIDE_MSG_HANDLING = "overrideDefaultMessageHandling";
 	public static final String ACTION_PUSH_IS_OVERRIDEN_MSG_HANDLING = "isDefaultMessageHandlingOverriden";
 	public static final String ACTION_PUSH_NOTIFY_NOTIFICATION_OPENED = "notifyNotificationOpened";
-	public static final String ACTION_PUSH_SET_TIMEZONE_OFFSET_IN_MINUTES="setTimezoneOffsetInMinutes";
-    public static final String ACTION_PUSH_SET_TIMEZONE_OFFSET_AUTOMATIC_UPDATE_ENABLED="setTimezoneOffsetAutomaticUpdateEnabled";
-    public static final String ACTION_PUSH_GET_DEVICE_ID = "getDeviceId";
-    public static final String ACTION_PUSH_SET_USER_ID = "setUserId";
-    public static final String ACTION_PUSH_GET_USER_ID = "getUserId";
-    public static final String ACTION_PUSH_ADD_MEDIA_VIEW = "addMediaView";
+	public static final String ACTION_PUSH_SET_TIMEZONE_OFFSET_IN_MINUTES = "setTimezoneOffsetInMinutes";
+  public static final String ACTION_PUSH_SET_TIMEZONE_OFFSET_AUTOMATIC_UPDATE_ENABLED = "setTimezoneOffsetAutomaticUpdateEnabled";
+  public static final String ACTION_PUSH_GET_DEVICE_ID = "getDeviceId";
+  public static final String ACTION_PUSH_SET_USER_ID = "setUserId";
+  public static final String ACTION_PUSH_GET_USER_ID = "getUserId";
+  public static final String ACTION_PUSH_ADD_MEDIA_VIEW = "addMediaView";
 
 
 	@Override
@@ -73,8 +71,6 @@ public class Push extends CordovaPlugin {
 
 			// ############# INITIALIZE #############
 			if (ACTION_PUSH_INITIALIZE.equals(action)) {
-
-
 
 				// set event listener
 				notificationEventListener = arg_object.getString("notificationListener");
@@ -94,9 +90,6 @@ public class Push extends CordovaPlugin {
 
 			// ############# REGISTER #############
 			if (ACTION_PUSH_REGISTER.equals(action)) {
-
-//				// set event listener
-//				notificationEventListener = arg_object.getString("notificationListener");
 
 				// manager initialization
 				this.setupPushManager(arg_object);
@@ -348,14 +341,11 @@ public class Push extends CordovaPlugin {
 		return false;
 	}
 
-
 	@Override
 	public void onPause(boolean multitasking) {
 		super.onPause(multitasking);
 		this.inPause = true;
 	}
-
-
 
 	@Override
 	public void onResume(boolean multitasking) {
@@ -363,16 +353,9 @@ public class Push extends CordovaPlugin {
 		this.inPause = false;
 	}
 
-
 	public static Class getContext() {
 		return clbContext.getClass();
 	}
-
-	public static String getOnNotificationOpenCallbackFunction() {
-		return notificationOpenCallback;
-
-	}
-
 
 	public static void sendJavascript(String js) {
 		if (null != cordovaWebView) {
@@ -385,9 +368,6 @@ public class Push extends CordovaPlugin {
 		if (null != extras) {
 			if (null != cordovaWebView) {
 				try {
-//					if(isDefaultMessageHandlingEnabled){
-//						extras.put(name, value)
-//					}
 					String js = notificationEventListener + "(\""
 							+ extras.getString(CordovaPushReceiver.IB_EVENT) + "\", "
 							+ extras.toString() + ")";
@@ -396,14 +376,12 @@ public class Push extends CordovaPlugin {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
 			} else {
 				Log.v(TAG, "proceedNotification: caching extras to proceed at a later time.");
 				cachedNnotifications.add(extras);
 			}
 		}
 	}
-
 
 	/**
 	 * Initialize Push Notification Manager
@@ -434,7 +412,7 @@ public class Push extends CordovaPlugin {
 			regData.setChannels(channelList);
 		}
 
-		// do not register, if push is already registered
+		// do not register if push is already registered
 		if(!this.manager.isRegistered()){
 			Log.d(TAG, "Not registered. Will register...");
 			this.manager.register(regData);
@@ -456,6 +434,7 @@ public class Push extends CordovaPlugin {
 		for (int i = 0; i < array.length(); i++) {
 			channels.add(array.getString(i));
 		}
+
 		return channels;
 	}
 
@@ -488,8 +467,9 @@ public class Push extends CordovaPlugin {
 			public void onChannelsObtained(String[] channels) {
 				JSONArray jsonChannels = new JSONArray();
 				for (String channel : channels) {
-		            jsonChannels.put(channel);
-		        }
+            jsonChannels.put(channel);
+        }
+
 				String js = registeredChannelsCallback + "(\"onChannelsObtained\", "
 						+ jsonChannels.toString() + ")";
 				sendJavascript(js);
@@ -511,9 +491,7 @@ public class Push extends CordovaPlugin {
 	private void setDebugModeEnabled(boolean ind) {
 		Log.d(TAG, "MM--- Debug is: " + ind);
 		this.manager.setDebugModeEnabled(ind);
-
 	}
-
 
 	private void getUnreceivedNotifications(final String unreceivedNotificationCallback) {
 		this.manager.getUnreceivedNotifications(new UnreceivedNotificationsListener() {
@@ -524,6 +502,7 @@ public class Push extends CordovaPlugin {
 					for (PushNotification push : notifications) {
 						notifArray.put(PushHandlerActivity.convertNotificationToJson(push));
 					}
+
 					String js = unreceivedNotificationCallback
 							+ "(\"onUnreceivedNotificationsObtained\", " + notifArray.toString() + ")";
 					sendJavascript(js);
@@ -536,7 +515,6 @@ public class Push extends CordovaPlugin {
 					sendJavascript(js);
 			}
 		});
-
 	}
 
 	private JSONObject convertRegistrationDataToJson(RegistrationData rd) throws JSONException{
@@ -548,7 +526,6 @@ public class Push extends CordovaPlugin {
 
 		return registrationDataJson;
 	}
-
 
 	private void notifyNotificationOpened(JSONObject args) throws JSONException{
 		final String pushId = args.getString("pushId");
@@ -570,7 +547,6 @@ public class Push extends CordovaPlugin {
 			}
 		});
 	}
-
 
 	@Override
 	public void onDestroy() {

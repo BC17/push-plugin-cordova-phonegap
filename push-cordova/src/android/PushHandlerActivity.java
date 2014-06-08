@@ -28,7 +28,7 @@ public class PushHandlerActivity extends Activity {
 			if (!isCordovaWebViewActive) {
 				forceMainActivityReload();
 			}
-				
+
 			finish();
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -47,35 +47,30 @@ public class PushHandlerActivity extends Activity {
 	/**
 	 * Takes the push extras from the intent, and sends it through to the
 	 * Push for processing.
-	 * 
+	 *
 	 * @throws JSONException
 	 */
 	private void processPushBundle(boolean isPushPluginActive) throws JSONException {
 		Bundle extras = getIntent().getExtras();
-		
+
 		if (null != extras) {
 			JSONObject push = new JSONObject(extras.getString("push"));
 			push.put("foreground", false);
 			push.put("coldstart", !isPushPluginActive);
 			Push.proceedNotification(push);
-			
+
 			LOG.d(Push.TAG, push.toString());
 		}
 	}
 
-//	/**
-//	 * In case that app is sleep, this method set new intent to this activity.
-//	 * New intent is one which wake activity up.
-//	 */
-//	@Override
-//	protected void onNewIntent(Intent intent) {
-//		super.onNewIntent(intent);
-//		this.setIntent(intent);
-//	}
+	@Override
+	protected void onConfigurationChanged(Configuration arg0) {
+		super.onConfigurationChanged(arg0);
+	}
 
 	/**
 	 * Convert push notification to JSON Object
-	 * 
+	 *
 	 * @param pn
 	 *            Push Notification
 	 * @return JSONObject
