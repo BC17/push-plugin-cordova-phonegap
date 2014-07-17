@@ -19,29 +19,30 @@ public class CordovaPushReceiver extends AbstractPushReceiver {
 	public static final String IB_ON_NOTIFICATION_OPENED = "onNotificationOpened";
 	public static final String IB_ON_UNREGISTER = "onUnregistered";
 	public static final String IB_ON_INVISIBLE_NOTIFICATION_RECEIVED = "onInvisibleNotificationReceived";
-	private static final String IB_ON_REGISTER = "onRegistered";
+	public static final String IB_ON_REGISTER = "onRegistered";
 
 	@Override
 	public void onRegistered(Context context) {
-		// Toast.makeText(context, "Successfully registered.", Toast.LENGTH_SHORT).show();
 
 		Intent intent = new Intent(context, com.infobip.push.cordova.PushHandlerActivity.class);
+
 		// TODO: set only required flags
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		JSONObject jsonPush = addEventToNotification(new PushNotification(), IB_ON_REGISTER);
 		intent.putExtra("push", jsonPush.toString());
+
 		// forward notification to PushHandlerActivity
 		context.startActivity(intent);
 
-		Log.d(Push.TAG, "Successfuly registered");
+		Log.d(Push.TAG, "Successfully registered");
 
 	}
 
 	@Override
 	public void onNotificationReceived(PushNotification notification, Context context) {
 
-		// If received notification, doesn't appear in notification bar
+		// If received notification doesn't appear in notification bar
 		// set notification event to IB_ON_INVISIBLE_NOTIFICATION_RECEIVED
 		JSONObject jsonPush = null;
 		if (this.isOverridenMessageHandling(context)) {
@@ -49,44 +50,49 @@ public class CordovaPushReceiver extends AbstractPushReceiver {
 		} else {
 			jsonPush = addEventToNotification(notification, IB_ON_NOTIFICATION_RECEIVED);
 		}
-		if (Push.isActive()) {
+
+		if (Push.isActive() && (!Push.inPause)) {
 			Intent intent = new Intent(context, com.infobip.push.cordova.PushHandlerActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
 					| Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			intent.putExtra("push", jsonPush.toString());
+
 			// forward notification to PushHandlerActivity
 			context.startActivity(intent);
 		}
+
 		Log.d("Push", "Message recieved: " + notification.getMessage());
 	}
 
 
 	public void onNotificationOpened(PushNotification notification, Context context) {
-		
+
 		JSONObject jsonPush = addEventToNotification(notification, IB_ON_NOTIFICATION_OPENED);
-		
+
 		Intent intent = new Intent(context, com.infobip.push.cordova.PushHandlerActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP  | Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		
-		
+
 		intent.putExtra("push", jsonPush.toString());
+
 		// forward notification to PushHandlerActivity
 		context.startActivity(intent);
 
 		Log.d(Push.TAG, "Message opened: " + notification.getMessage());
 	}
-	
-	
+
+
 	@Override
 	public void onUnregistered(Context context) {
 		Intent intent = new Intent(context, com.infobip.push.cordova.PushHandlerActivity.class);
+
 		// TODO: set only required flags
 		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK
 				| Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		JSONObject jsonPush = addEventToNotification(new PushNotification(), IB_ON_UNREGISTER);
 		intent.putExtra("push", jsonPush.toString());
+
 		// forward notification to PushHandlerActivity
 		context.startActivity(intent);
 
@@ -95,13 +101,12 @@ public class CordovaPushReceiver extends AbstractPushReceiver {
 
 	@Override
 	public void onError(int reason, Context context) {
-		// TODO Auto-generated method stub
-		Log.d(Push.TAG, Integer.toString(reason));
+		Log.w(Push.TAG, Integer.toString(reason));
 	}
 
 	/**
 	 * Convert Notification to JSON and add event to object
-	 * 
+	 *
 	 * @param pn Push notification
 	 * @param event event to add to JSON Object
 	 * @return converted notification with event
@@ -127,8 +132,8 @@ public class CordovaPushReceiver extends AbstractPushReceiver {
 		if (prefs == null) {
 			return false;
 		}
+
 		return prefs.getBoolean("developerHandleMessage", false);
 
 	}
-
 }
