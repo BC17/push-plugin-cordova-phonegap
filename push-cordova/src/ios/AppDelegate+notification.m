@@ -23,11 +23,6 @@
             NSLog(@"Notification error: %d", error.code);
         }
     }];
-    
-    //    [InfobipPush registerWithDeviceToken: deviceToken toChannels: IBPush.channels];
-    //    NSString* js = [[NSString alloc] initWithFormat:@"%@(\"onRegistered\", -1)", [IBPush notificationClb]];
-    //    [[IBPush IBPushInstance] writeJavascript:js];
-    
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

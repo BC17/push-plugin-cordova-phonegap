@@ -319,7 +319,7 @@
     },
     getUserId: function() {
         push.getUserId(function (data) {
-            app.appendToConsole("User = " + JSON.stringify(data));
+            app.appendToConsole("UserId = " + data);
         });
     },
 
