@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import com.infobip.push.PushNotification;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -64,7 +65,7 @@ public class PushHandlerActivity extends Activity {
 	}
 
 	@Override
-	protected void onConfigurationChanged(Configuration arg0) {
+	public void onConfigurationChanged(Configuration arg0) {
 		super.onConfigurationChanged(arg0);
 	}
 

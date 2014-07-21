@@ -556,7 +556,6 @@ public class Push extends CordovaPlugin {
 
 	@Override
 	public boolean onOverrideUrlLoading(String url) {
-		Log.d(this.TAG, "onOverrideUrlLoading YEEEAAHH!!");
-		return true;
+		return false;
 	}
 }
