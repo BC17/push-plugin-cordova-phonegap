@@ -113,7 +113,7 @@ The received notification has the following form:
 	{
 	    "notificationId":"<52d916a...00006e7>",
 	    "message":"<Some message>",
-	    "aditionalInfo":
+	    "additionalInfo":
 	    {
 	        "key1":"value1",
 	        "key2":"value2"
